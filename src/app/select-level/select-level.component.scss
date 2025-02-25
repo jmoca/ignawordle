@@ -1,0 +1,55 @@
+/* Estilo general para los botones */
+.btn {
+  padding: 10px 20px;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 10px;
+  border-radius: 5px;
+  width: 180px; /* Set a fixed width */
+  height: 60px; /* Set a fixed height */
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+/* Estilo para el botón "Fácil" */
+.btn-facil {
+  background-color: #003c00;
+}
+
+.btn-facil:hover {
+  background-color: green;
+  color: white;
+}
+
+/* Estilo para el botón "Intermedio" */
+.btn-intermedio {
+  background-color: #b39503;
+}
+
+.btn-intermedio:hover {
+  background-color: #ffff00;
+  color: black;
+}
+
+/* Estilo para el botón "Difícil" */
+.btn-dificil {
+  background-color: #8c0000;
+}
+
+.btn-dificil:hover {
+  background-color: #f60606;
+  color: white;
+}
+.center-text {
+  text-align: center;
+  font-size: 35px;
+  font-family: Calibri;
+}
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
