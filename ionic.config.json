@@ -1,0 +1,7 @@
+{
+  "name": "ignawordle",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
