@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { palabrasEasy } from '../words/easy';
 import { palabrasIntermediate } from '../words/intermediate';
 import { palabrasHard } from '../words/hard';
+import {IonicModule} from "@ionic/angular";
 
 @Component({
   selector: 'app-guess-word',
@@ -13,21 +14,22 @@ import { palabrasHard } from '../words/hard';
   standalone: true,
   imports: [
     FormsModule,
-    CommonModule
+    CommonModule,
+    IonicModule
   ]
 })
 export class GuessWordComponent implements OnInit {
   palabraAdivinar: string = '';
-  guesses: string[][] = [];
+  guesses: { letter: string; status: 'correct' | 'present' | 'absent' | '' }[][] = [];
   currentAttempt: number = 0;
   currentLetter: number = 0;
   maxAttempts: number = 6;
+  keyboardState: { [key: string]: 'correct' | 'present' | 'absent' | '' } = {};
   keyboardRows: string[][] = [
     'QWERTYUIOP'.split(''),
     'ASDFGHJKLÑ'.split(''),
     'ZXCVBNM'.split('')
   ];
-
 
   private wordLists: { [key: string]: string[] } = {
     easy: palabrasEasy,
@@ -52,13 +54,13 @@ export class GuessWordComponent implements OnInit {
 
   initializeGrid() {
     this.guesses = Array.from({ length: this.maxAttempts }, () =>
-      new Array(this.palabraAdivinar.length).fill('')
+      new Array(this.palabraAdivinar.length).fill({ letter: '', status: '' })
     );
   }
 
   enterLetter(letter: string) {
     if (this.currentLetter < this.palabraAdivinar.length) {
-      this.guesses[this.currentAttempt][this.currentLetter] = letter;
+      this.guesses[this.currentAttempt][this.currentLetter] = { letter, status: '' };
       this.currentLetter++;
     }
   }
@@ -66,14 +68,42 @@ export class GuessWordComponent implements OnInit {
   deleteLetter() {
     if (this.currentLetter > 0) {
       this.currentLetter--;
-      this.guesses[this.currentAttempt][this.currentLetter] = '';
+      this.guesses[this.currentAttempt][this.currentLetter] = { letter: '', status: '' };
     }
   }
 
   submitWord() {
     if (this.currentLetter === this.palabraAdivinar.length) {
+      this.validateWord();
       this.currentAttempt++;
       this.currentLetter = 0;
     }
   }
+
+  validateWord() {
+    const currentWord = this.guesses[this.currentAttempt].map(c => c.letter);
+    const wordArray = this.palabraAdivinar.split('');
+
+    currentWord.forEach((letter, index) => {
+      if (letter === wordArray[index]) {
+        this.guesses[this.currentAttempt][index].status = 'correct';
+        this.keyboardState[letter] = 'correct';
+        wordArray[index] = '';
+      }
+    });
+
+    currentWord.forEach((letter, index) => {
+      if (wordArray.includes(letter) && this.guesses[this.currentAttempt][index].status !== 'correct') {
+        this.guesses[this.currentAttempt][index].status = 'present';
+        this.keyboardState[letter] = this.keyboardState[letter] !== 'correct' ? 'present' : 'correct';
+        wordArray[wordArray.indexOf(letter)] = '';
+      } else if (!this.palabraAdivinar.includes(letter)) {
+        this.guesses[this.currentAttempt][index].status = 'absent';
+        if (!this.keyboardState[letter]) {
+          this.keyboardState[letter] = 'absent';
+        }
+      }
+    });
+  }
+
 }

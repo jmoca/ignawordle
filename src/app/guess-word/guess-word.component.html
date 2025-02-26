@@ -1,26 +1,38 @@
-<div class="container">
-  <h1 class="title">Palabra aleatoria de {{palabraAdivinar.length}} letras</h1>
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="title">La palabra tiene {{palabraAdivinar.length}} letras</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  <!-- Grid de intentos -->
-  <div class="grid">
-    <div *ngFor="let guess of guesses" class="flex">
-      <div *ngFor="let cell of guess"
-           class="cell">
-        {{ cell }}
-      </div>
+<ion-content class="container">
+  <ion-grid>
+    <ion-row *ngFor="let row of guesses">
+      <ion-col *ngFor="let cell of row" class="cell" [ngClass]="cell.status">
+        {{ cell.letter }}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div *ngFor="let row of guesses; let rowIndex = index">
+    <div *ngFor="let cell of row; let colIndex = index"
+         [ngClass]="checkLetterState(rowIndex, colIndex)">
+      {{ cell }}
     </div>
   </div>
 
-  <!-- Teclado virtual -->
+  <!-- Teclado -->
   <div class="keyboard">
     <div *ngFor="let row of keyboardRows" class="keyboard-row">
-      <button *ngFor="let letter of row" class="key" (click)="enterLetter(letter)">
-        {{ letter }}
+      <button
+        *ngFor="let key of row"
+        class="key"
+        [ngClass]="keyboardState[key]"
+        (click)="enterLetter(key)">
+        {{ key }}
       </button>
     </div>
     <div class="keyboard-row">
-      <button class="key action" (click)="deleteLetter()">⌫</button>
-      <button class="key action" (click)="submitWord()">Enter</button>
+      <button class="key special" (click)="submitWord()">✔</button>
+      <button class="key special" (click)="deleteLetter()">⌫</button>
     </div>
   </div>
-</div>
+</ion-content>
