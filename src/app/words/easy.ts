@@ -1,4 +1,4 @@
-let palabrasEasy: string[] = [
+export const palabrasEasy: string[] = [
   "paz",
   "fe",
   "dios",

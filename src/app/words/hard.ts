@@ -1,4 +1,4 @@
-let palabrasHard: readonly string[] = [
+export const palabrasHard:  string[] = [
   "Fundador",
   "Sacerdote",
   "Jesuita",

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import {FormsModule} from "@angular/forms";
-import {NgIf} from "@angular/common";
+import { palabrasEasy } from '../words/easy';
+import { palabrasIntermediate } from '../words/intermediate';
+import { palabrasHard } from '../words/hard';
 
 @Component({
   selector: 'app-guess-word',
@@ -9,30 +11,17 @@ import {NgIf} from "@angular/common";
   standalone: true,
   imports: [
     FormsModule,
-    NgIf
+
   ]
 })
 export class GuessWordComponent {
-  // Palabra a adivinar
-  correctWord: string = 'MOUSE';
-  guesses: string[][] = [
-    ['', '', '', '', ''],
-    ['', '', '', '', ''],
-    ['', '', '', '', ''],
-  ];
-  currentRow: number = 0;
-  feedback: string = '';
-
-  checkGuess() {
-    const guess = this.guesses[this.currentRow].join('').toUpperCase();
-    if (guess === this.correctWord) {
-      this.feedback = '¡Correcto!';
-    } else {
-      this.feedback = 'Intenta de nuevo';
-      this.currentRow++;
-      if (this.currentRow >= 3) {
-        this.feedback = '¡Juego terminado!';
-      }
-    }
+  private wordLists: { [key: string]: string[] } = {
+    easy: palabrasEasy,
+    intermediate: palabrasIntermediate,
+    hard: palabrasHard
+  };
+  getRandomWord(level: string): string {
+    const words = this.wordLists[level] || [];
+    return words.length > 0 ? words[Math.floor(Math.random() * words.length)] : '';
   }
 }

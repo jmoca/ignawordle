@@ -1,4 +1,4 @@
-let palabrasIntermediate: readonly string[] = [
+export const palabrasIntermediate:  string[] = [
   "Loyola",
   "Rezar",
   "Santo",
