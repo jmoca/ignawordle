@@ -1,55 +1,87 @@
-.wordle-container {
-  max-width: 400px;
-  margin: 50px auto;
+
+/* Estilo general */
+.container {
   text-align: center;
-}
-
-h1 {
-  font-size: 36px;
-  margin-bottom: 20px;
-}
-
-.word-grid {
+  color: white;
+  font-family: Arial, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #121213;
 }
 
-.word-row {
+/* Título */
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Cuadros de letras */
+.grid {
   display: flex;
-  margin-bottom: 10px;
+  justify-content: center;
+  margin: 20px 0;
 }
 
-.letter-input {
+.flex {
+  display: flex;
+}
+
+.cell {
   width: 50px;
   height: 50px;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 24px;
-  text-align: center;
-  margin: 0 5px;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-}
-
-.letter-input:focus {
-  outline: none;
-  border-color: #666;
-}
-
-.submit-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #4CAF50;
+  font-weight: bold;
+  margin: 5px;
+  text-transform: uppercase;
+  background-color: #3a3a3c;
   color: white;
-  border: none;
   border-radius: 5px;
+}
+
+/* Teclado */
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  margin: 5px 0;
+}
+
+.key {
+  width: 40px;
+  height: 50px;
+  margin: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+  background-color: #818384;
+  color: white;
   cursor: pointer;
 }
 
-.submit-button:hover {
-  background-color: #45a049;
+.key:hover {
+  background-color: #a4a4a6;
 }
 
-.feedback {
-  margin-top: 20px;
+.key:active {
+  background-color: #d7d7d8;
+}
+
+/* Botones especiales */
+.key:last-child {
+  width: 80px; /* Para la tecla Enter */
 }

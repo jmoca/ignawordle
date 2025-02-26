@@ -1,0 +1,26 @@
+<div class="container">
+  <h1 class="title">Palabra aleatoria de {{palabraAdivinar.length}} letras</h1>
+
+  <!-- Grid de intentos -->
+  <div class="grid">
+    <div *ngFor="let guess of guesses" class="flex">
+      <div *ngFor="let cell of guess"
+           class="cell">
+        {{ cell }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Teclado virtual -->
+  <div class="keyboard">
+    <div *ngFor="let row of keyboardRows" class="keyboard-row">
+      <button *ngFor="let letter of row" class="key" (click)="enterLetter(letter)">
+        {{ letter }}
+      </button>
+    </div>
+    <div class="keyboard-row">
+      <button class="key action" (click)="deleteLetter()">⌫</button>
+      <button class="key action" (click)="submitWord()">Enter</button>
+    </div>
+  </div>
+</div>
