@@ -1,38 +1,24 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title class="title">La palabra tiene {{palabraAdivinar.length}} letras</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content class="container">
-  <ion-grid>
-    <ion-row *ngFor="let row of guesses">
-      <ion-col *ngFor="let cell of row" class="cell" [ngClass]="cell.status">
-        {{ cell.letter }}
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <div *ngFor="let row of guesses; let rowIndex = index">
-    <div *ngFor="let cell of row; let colIndex = index"
-         [ngClass]="checkLetterState(rowIndex, colIndex)">
-      {{ cell }}
+<div class="wordle-container">
+  <div class="row" *ngFor="let row of rows; let rowIndex = index;">
+    <div
+      class="letter-box"
+      *ngFor="let letter of answer?.split(''); let letterIndex = index;"
+      [ngClass]="{
+      'green': rowResults[rowIndex]?.[letterIndex] === 'g',
+      'yellow': rowResults[rowIndex]?.[letterIndex] === 'y',
+      'wrong': rowResults[rowIndex]?.[letterIndex] === 'x'
+    }"
+    >
+      {{ row?.charAt(letterIndex) }}
     </div>
   </div>
 
-  <!-- Teclado -->
+
   <div class="keyboard">
-    <div *ngFor="let row of keyboardRows" class="keyboard-row">
-      <button
-        *ngFor="let key of row"
-        class="key"
-        [ngClass]="keyboardState[key]"
-        (click)="enterLetter(key)">
+    <div class="keyboard-row" *ngFor="let keyboardRow of keyboardRows">
+      <button *ngFor="let key of keyboardRow" (click)="addLetter(key)">
         {{ key }}
       </button>
     </div>
-    <div class="keyboard-row">
-      <button class="key special" (click)="submitWord()">✔</button>
-      <button class="key special" (click)="deleteLetter()">⌫</button>
-    </div>
   </div>
-</ion-content>
+</div>

@@ -1,109 +1,137 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from "@angular/forms";
-import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import {CommonModule, NgClass} from "@angular/common";
 import { palabrasEasy } from '../words/easy';
 import { palabrasIntermediate } from '../words/intermediate';
 import { palabrasHard } from '../words/hard';
-import {IonicModule} from "@ionic/angular";
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { WinDialogComponent } from "../win-dialog/win-dialog.component";
+import { LoseDialogComponent } from "../lose-dialog/lose-dialog.component";
 
 @Component({
   selector: 'app-guess-word',
-  templateUrl: './guess-word.component.html',
-  styleUrls: ['./guess-word.component.css'],
   standalone: true,
   imports: [
-    FormsModule,
+    NgClass,
+    MatDialogModule,
     CommonModule,
-    IonicModule
-  ]
+  ],
+  templateUrl: './guess-word.component.html',
+  styleUrl: './guess-word.component.scss'
 })
 export class GuessWordComponent implements OnInit {
-  palabraAdivinar: string = '';
-  guesses: { letter: string; status: 'correct' | 'present' | 'absent' | '' }[][] = [];
-  currentAttempt: number = 0;
-  currentLetter: number = 0;
-  maxAttempts: number = 6;
-  keyboardState: { [key: string]: 'correct' | 'present' | 'absent' | '' } = {};
-  keyboardRows: string[][] = [
-    'QWERTYUIOP'.split(''),
-    'ASDFGHJKLÑ'.split(''),
-    'ZXCVBNM'.split('')
+
+  currentRow = 0;
+  currentLetter = 0;
+  answer: string = '';
+  answerSize = 0;
+  rows: string[] = ['', '', '', '', '', ''];
+  rowResults: string[][] = [[], [], [], [], [], []];
+
+  keyboardRows = [
+    ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+    ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+    ['z', 'x', 'c', 'v', 'b', 'n', 'm'],
   ];
+  difficulty: 'easy' | 'intermediate' | 'hard' = 'easy';
 
-  private wordLists: { [key: string]: string[] } = {
-    easy: palabrasEasy,
-    intermediate: palabrasIntermediate,
-    hard: palabrasHard
-  };
+  constructor(private matDialog: MatDialog) {}
 
-  constructor(private route: ActivatedRoute) {}
-
-  ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      const level = params['level'] || 'easy';
-      this.palabraAdivinar = this.getRandomWord(level);
-      this.initializeGrid();
-    });
+  ngOnInit(): void {
+    this.initializeGame();
   }
 
-  getRandomWord(level: string): string {
-    const words = this.wordLists[level] || [];
-    return words.length > 0 ? words[Math.floor(Math.random() * words.length)] : '';
+  initializeGame(): void {
+    this.answer = this.getRandomWord();
+    this.answerSize = this.answer.length;
+    this.rows = ['', '', '', '', '', ''];
+    this.rowResults = [[], [], [], [], [], []];
+    this.currentRow = 0;
+    this.currentLetter = 0;
   }
 
-  initializeGrid() {
-    this.guesses = Array.from({ length: this.maxAttempts }, () =>
-      new Array(this.palabraAdivinar.length).fill({ letter: '', status: '' })
-    );
-  }
+  addLetter(letter: string): void {
+    if (this.currentLetter < this.answerSize && this.currentRow < this.rows.length) {
+      this.rows[this.currentRow] += letter;
+      this.currentLetter += 1;
 
-  enterLetter(letter: string) {
-    if (this.currentLetter < this.palabraAdivinar.length) {
-      this.guesses[this.currentAttempt][this.currentLetter] = { letter, status: '' };
-      this.currentLetter++;
-    }
-  }
-
-  deleteLetter() {
-    if (this.currentLetter > 0) {
-      this.currentLetter--;
-      this.guesses[this.currentAttempt][this.currentLetter] = { letter: '', status: '' };
-    }
-  }
-
-  submitWord() {
-    if (this.currentLetter === this.palabraAdivinar.length) {
-      this.validateWord();
-      this.currentAttempt++;
-      this.currentLetter = 0;
-    }
-  }
-
-  validateWord() {
-    const currentWord = this.guesses[this.currentAttempt].map(c => c.letter);
-    const wordArray = this.palabraAdivinar.split('');
-
-    currentWord.forEach((letter, index) => {
-      if (letter === wordArray[index]) {
-        this.guesses[this.currentAttempt][index].status = 'correct';
-        this.keyboardState[letter] = 'correct';
-        wordArray[index] = '';
+      if (this.currentLetter === this.answerSize) {
+        this.checkRowAccuracy(this.currentRow);
+        this.currentRow += 1;
+        this.currentLetter = 0;
       }
-    });
+    }
+  }
 
-    currentWord.forEach((letter, index) => {
-      if (wordArray.includes(letter) && this.guesses[this.currentAttempt][index].status !== 'correct') {
-        this.guesses[this.currentAttempt][index].status = 'present';
-        this.keyboardState[letter] = this.keyboardState[letter] !== 'correct' ? 'present' : 'correct';
-        wordArray[wordArray.indexOf(letter)] = '';
-      } else if (!this.palabraAdivinar.includes(letter)) {
-        this.guesses[this.currentAttempt][index].status = 'absent';
-        if (!this.keyboardState[letter]) {
-          this.keyboardState[letter] = 'absent';
+  checkRowAccuracy(rowIndex: number): void {
+    const guessedWord = this.rows[rowIndex];
+    let rowAccuracyString = '';
+
+    for (let i = 0; i < this.answerSize; i += 1) {
+      const currentChar = guessedWord.charAt(i);
+      const doesCharacterExistInWord = this.answer.includes(currentChar);
+
+      if (doesCharacterExistInWord) {
+        const isCharacterInCorrectSpot = this.answer.charAt(i) === currentChar;
+
+        if (isCharacterInCorrectSpot) {
+          rowAccuracyString += 'g';
+        } else {
+          rowAccuracyString += 'y';
         }
+      } else {
+        rowAccuracyString += 'x';
+      }
+    }
+
+    this.rowResults[rowIndex] = rowAccuracyString.split('');
+
+    if (!(rowAccuracyString.includes('x') || rowAccuracyString.includes('y'))) {
+      this.showWinDialog();
+    } else {
+      if (rowIndex === 5) {
+        this.showLoseDialog();
+      }
+    }
+  }
+
+  showWinDialog(): void {
+    this.matDialog.open(WinDialogComponent, {
+      disableClose: true,
+      panelClass: 'custom-dialog'
+    }).afterClosed().subscribe((res: string) => {
+      if (res === 'restart') {
+        this.initializeGame();
       }
     });
   }
 
+  showLoseDialog(): void {
+    this.matDialog.open(LoseDialogComponent, {
+      disableClose: true,
+      panelClass: 'custom-dialog'
+    }).afterClosed().subscribe((res: string) => {
+      if (res === 'restart') {
+        this.initializeGame();
+      }
+    });
+  }
+
+
+  getRandomWord(): string {
+    let words: string[];
+    switch (this.difficulty) {
+      case 'easy':
+        words = palabrasEasy;
+        break;
+      case 'intermediate':
+        words = palabrasIntermediate;
+        break;
+      case 'hard':
+        words = palabrasHard;
+        break;
+      default:
+        words = palabrasEasy;
+    }
+    return words[Math.floor(Math.random() * words.length)];
+  }
 }
