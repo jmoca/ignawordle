@@ -1,0 +1,15 @@
+:host {
+  padding: 24px;
+  text-align: center;
+  background-color: black;
+
+  p {
+    padding: 24px 0;
+  }
+
+  mat-icon {
+    margin: 0 auto;
+    padding-bottom: 24px;
+    cursor: pointer;
+  }
+}
