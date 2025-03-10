@@ -1,24 +1,74 @@
 <div class="wordle-container">
-  <div class="row" *ngFor="let row of rows; let rowIndex = index;">
-    <div
-      class="letter-box"
-      *ngFor="let letter of answer?.split(''); let letterIndex = index;"
-      [ngClass]="{
-      'green': rowResults[rowIndex]?.[letterIndex] === 'g',
-      'yellow': rowResults[rowIndex]?.[letterIndex] === 'y',
-      'wrong': rowResults[rowIndex]?.[letterIndex] === 'x'
-    }"
-    >
-      {{ row?.charAt(letterIndex) }}
-    </div>
-  </div>
+    <div class="game-header">
+        <h1>Wordle</h1>
+        <div class="difficulty-badge">{{ difficulty | titlecase }}</div>
+        <button class="icon-button" (click)="toggleHelp()" aria-label="Ayuda">
+            <span class="material-icon">❓</span>
+        </button>
 
-
-  <div class="keyboard">
-    <div class="keyboard-row" *ngFor="let keyboardRow of keyboardRows">
-      <button *ngFor="let key of keyboardRow" (click)="addLetter(key)">
-        {{ key }}
-      </button>
     </div>
-  </div>
+
+    <div class="grid-container">
+        <div class="row" *ngFor="let row of rows; let rowIndex = index;">
+            <div
+                class="letter-box"
+                *ngFor="let letter of Array(answerSize).fill(0); let letterIndex = index;"
+                [ngClass]="{
+          'green': rowResults[rowIndex][letterIndex] === 'g',
+          'yellow': rowResults[rowIndex][letterIndex] === 'y',
+          'wrong': rowResults[rowIndex][letterIndex] === 'x',
+          'current': rowIndex === currentRow,
+          'filled': row?.charAt(letterIndex) !== ''
+        }"
+            >
+                {{ row?.charAt(letterIndex) | uppercase }}
+            </div>
+        </div>
+    </div>
+
+    <div class="keyboard">
+        <div class="keyboard-row" *ngFor="let keyboardRow of keyboardRows">
+            <button
+                *ngFor="let key of keyboardRow"
+                (click)="handleKeyClick(key)"
+                [ngClass]="{
+          'key-special': key === 'Intro' || key === '⌫',
+          'key-green': keyboardStatus[key] === 'g',
+          'key-yellow': keyboardStatus[key] === 'y',
+          'key-wrong': keyboardStatus[key] === 'x'
+        }"
+            >
+                {{ key }}
+            </button>
+        </div>
+    </div>
+
+    <div class="instructions">
+        <p>Tecla <strong>Enter</strong> o botón <strong>Intro</strong> para enviar palabra</p>
+        <p>Tecla <strong>Backspace</strong> o botón <strong>⌫</strong> para borrar</p>
+    </div>
+
+    <div class="modal" *ngIf="showHelp" [@modalAnimation]>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Cómo jugar</h2>
+                <button class="close-button" (click)="toggleHelp()">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Adivina la palabra oculta en el número de intentos.</p>
+                <p>Cada intento debe ser una palabra válida.</p>
+                <p>Después de cada intento, el color de las letras cambiará para mostrar qué tan cerca estás de la solución.</p>
+                <div class="example">
+                    <p><strong>Ejemplos:</strong></p>
+                    <div class="example-letter green">A</div>
+                    <p>La letra A está en la palabra y en el lugar correcto.</p>
+                    <div class="example-letter yellow">B</div>
+                    <p>La letra B está en la palabra pero en el lugar incorrecto.</p>
+                    <div class="example-letter wrong">C</div>
+                    <p>La letra C no está en la palabra.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

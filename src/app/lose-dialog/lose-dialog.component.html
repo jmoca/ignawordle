@@ -1,2 +1,9 @@
-<p>PERDISTEEEE!!!</p>
-<mat-icon [mat-dialog-close]="'restart'">INTENTALO DE NUEVO</mat-icon>
+<div class="lose-dialog">
+    <h2>¡Se acabaron los intentos!</h2>
+    <p>La palabra correcta era: <strong>{{ data.word | uppercase }}</strong></p>
+
+    <div class="buttons">
+        <button class="btn-restart" (click)="restartGame()">Intentar otra vez</button>
+        <button class="btn-menu" (click)="goToMenu()">Volver al menú</button>
+    </div>
+</div>

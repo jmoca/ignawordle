@@ -1,2 +1,16 @@
-<p>GANASTEEEE!</p>
-<mat-icon [mat-dialog-close]="'restart'">INTENTALO DE NUEVO</mat-icon>
+<div class="win-dialog">
+    <h2>¡Felicidades!</h2>
+    <p>Has adivinado la palabra <strong>{{ data.word | uppercase }}</strong> en {{ data.attempts }} {{ data.attempts === 1 ? 'intento' : 'intentos' }}.</p>
+
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-value">{{ data.attempts }}</div>
+            <div class="stat-label">Intentos</div>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button class="btn-restart" (click)="restartGame()">Jugar otra vez</button>
+        <button class="btn-menu" (click)="goToMenu()">Volver al menú</button>
+    </div>
+</div>

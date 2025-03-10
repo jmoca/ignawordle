@@ -1,10 +1,10 @@
-export const palabrasIntermediate:  string[] = [
-  "Loyola",
-  "Rezar",
-  "Santo",
-  "Cristo",
-  "Templo",
-  "Jesuita",
-  "Apóstol",
-  "Fundar"
+export const palabrasIntermediate: string[] = [
+    "Loyola",
+    "Rezar",
+    "Santo",
+    "Cristo",
+    "Templo",
+    "Jesuita",
+    "Apóstol",
+    "Fundar"
 ];

@@ -1,7 +1,33 @@
+<div class="game-container">
+    <h1 class="game-title">IGNAWORDLE</h1>
+    <p class="level-text">Selecciona tu nivel de desafío</p>
 
-<div class="button-container">
-  <p class="center-text">Selecciona el nivel</p>
-  <button class="btn btn-facil" (click)="navigateToGuessWord('easy')">Fácil</button>
-  <button class="btn btn-intermedio" (click)="navigateToGuessWord('intermediate')">Intermedio</button>
-  <button class="btn btn-dificil" (click)="navigateToGuessWord('hard')">Difícil</button>
+    <div class="buttons-wrapper">
+        <button class="level-btn level-easy" (click)="navigateToGuessWord('easy')">
+            <span class="level-icon">🟩</span>
+            <span class="level-name">Fácil</span>
+            <span class="level-description">Entre 2-4 letras</span>
+        </button>
+
+        <button class="level-btn level-medium" (click)="navigateToGuessWord('intermediate')">
+            <span class="level-icon">🟨</span>
+            <span class="level-name">Intermedio</span>
+            <span class="level-description">Entre 5-7 letras</span>
+        </button>
+
+        <button class="level-btn level-hard" (click)="navigateToGuessWord('hard')">
+            <span class="level-icon">🟥</span>
+            <span class="level-name">Difícil</span>
+            <span class="level-description">Entre 8-10 letras</span>
+        </button>
+    </div>
+
+    <div class="game-info">
+        <p>Adivina la palabra en los intentos disponibles</p>
+        <div class="legend">
+            <div class="legend-item"><span class="legend-box correct"></span> Letra correcta en posición correcta</div>
+            <div class="legend-item"><span class="legend-box present"></span> Letra correcta en posición incorrecta</div>
+            <div class="legend-item"><span class="legend-box incorrect"></span> Letra incorrecta</div>
+        </div>
+    </div>
 </div>
