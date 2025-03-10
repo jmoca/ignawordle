@@ -22,12 +22,20 @@ $transition-speed: 0.3s;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* Cambié a 'flex-start' para evitar que los elementos se centren */
     padding: 2rem;
     max-width: 800px;
     margin: 0 auto;
     min-height: 100vh;
+
+    /* Propiedades para habilitar el scroll vertical cuando sea necesario */
+    overflow-y: auto; /* Permite el desplazamiento vertical si el contenido excede el tamaño del contenedor */
+    max-height: 100vh; /* Limita el alto máximo del contenedor a la altura de la ventana */
 }
+.game-container::-webkit-scrollbar {
+    display: none; /* Para ocultar el scrollbar en Chrome, Safari y Opera */
+}
+
 
 .game-title {
     font-size: 3.5rem;
@@ -182,7 +190,7 @@ $transition-speed: 0.3s;
     }
 
     &.incorrect {
-        background-color: #3a3a3c;
+        background-color: $color-hard;
     }
 }
 
