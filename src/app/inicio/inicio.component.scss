@@ -1,0 +1,294 @@
+// Variables (manteniendo las que ya tienes definidas)
+$color-background: #121213;
+$color-text: #d7dadc;
+$color-border-inactive: #3a3a3c;
+$color-border-active: #565758;
+$color-green: #538d4e;
+$color-yellow: #b59f3b;
+$color-wrong: #3a3a3c;
+$color-keyboard: #818384;
+$color-keyboard-hover: #a3a3a4;
+$color-easy: #538d4e;
+$color-medium: #b59f3b;
+$color-hard: #a4161a;
+$border-radius: 4px;
+$transition-speed: 0.2s;
+$font-family: 'Poppins', sans-serif;
+
+// Página de inicio
+.landing-container {
+    background-color: $color-background;
+    color: $color-text;
+    font-family: $font-family;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0 20px;
+    overflow-x: hidden;
+}
+
+.landing-content {
+    max-width: 550px;
+    width: 100%;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo-wrapper {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.game-logo {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: 0.2rem;
+    position: relative;
+    display: inline-block;
+    color: $color-text;
+
+    &::after {
+        content: "";
+        position: absolute;
+        left: -5px;
+        right: -5px;
+        bottom: -3px;
+        height: 4px;
+        background: linear-gradient(to right, $color-green, $color-yellow, $color-wrong);
+        border-radius: 2px;
+    }
+}
+
+.game-subtitle {
+    display: block;
+    font-size: 1rem;
+    margin-top: 8px;
+    color: darken($color-text, 20%);
+}
+
+.game-description {
+    text-align: center;
+    margin-bottom: 32px;
+
+    p {
+        font-size: 1.1rem;
+        line-height: 1.5;
+    }
+}
+
+.example-grid {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 32px;
+    width: 100%;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.example-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.example-cell {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid $color-border-inactive;
+    font-size: 1.4rem;
+    font-weight: 700;
+    border-radius: $border-radius;
+
+    &.green {
+        background-color: $color-green;
+        border-color: $color-green;
+    }
+
+    &.yellow {
+        background-color: $color-yellow;
+        border-color: $color-yellow;
+    }
+
+    &.wrong {
+        background-color: $color-wrong;
+        border-color: $color-wrong;
+    }
+}
+
+.example-text {
+    text-align: center;
+    font-size: 0.9rem;
+    margin: 12px 0 24px;
+    color: darken($color-text, 15%);
+
+    strong {
+        color: $color-text;
+    }
+}
+
+.difficulty-selection {
+    width: 100%;
+    margin-bottom: 32px;
+
+    h2 {
+        text-align: center;
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+}
+
+.difficulty-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.difficulty-btn {
+    background-color: transparent;
+    min-width: 150px;
+    padding: 16px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all $transition-speed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: $font-family;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+    .difficulty-name {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    .difficulty-desc {
+        font-size: 0.8rem;
+        opacity: 0.9;
+    }
+
+    &.easy {
+        color: white;
+        border: 2px solid $color-easy;
+        background-color: rgba($color-easy, 0.15);
+
+        &:hover {
+            background-color: rgba($color-easy, 0.25);
+            transform: translateY(-3px);
+        }
+    }
+
+    &.medium {
+        color: white;
+        border: 2px solid $color-medium;
+        background-color: rgba($color-medium, 0.15);
+
+        &:hover {
+            background-color: rgba($color-medium, 0.25);
+            transform: translateY(-3px);
+        }
+    }
+
+    &.hard {
+        color: white;
+        border: 2px solid $color-hard;
+        background-color: rgba($color-hard, 0.15);
+
+        &:hover {
+            background-color: rgba($color-hard, 0.25);
+            transform: translateY(-3px);
+        }
+    }
+}
+
+.start-game {
+    margin-top: 10px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.challenge-text {
+    font-size: 1.2rem;
+    font-weight: 500;
+    animation: pulse 2s infinite;
+    background: linear-gradient(90deg, $color-green, $color-yellow);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.challenge-button {
+    font-size: 2rem;
+    font-weight: 600;
+    animation: pulse 2s infinite;
+    background: linear-gradient(90deg, $color-hard, $color-yellow);
+    width: fit-content;
+    margin: 0 auto;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+// Responsive
+@media (max-width: 600px) {
+    .game-logo {
+        font-size: 2.8rem;
+    }
+
+    .game-description p {
+        font-size: 1rem;
+    }
+
+    .difficulty-buttons {
+        flex-direction: column;
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .difficulty-btn {
+        width: 100%;
+    }
+
+    .example-cell {
+        width: 35px;
+        height: 35px;
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .game-logo {
+        font-size: 2.4rem;
+    }
+
+    .example-cell {
+        width: 30px;
+        height: 30px;
+        font-size: 1rem;
+    }
+
+    .difficulty-buttons {
+        width: 100%;
+    }
+}

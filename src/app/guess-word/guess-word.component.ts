@@ -40,6 +40,11 @@ export class GuessWordComponent implements OnInit, OnDestroy {
     private routeSub: Subscription | undefined;
     showHelp = false;
 
+    totalAttempts = 6;
+    currentAttempt = 0;
+    showHintPrompt = false;
+    showHint = false;
+    hint = 'La palabra comienza con la letra A';
 
     Array = Array;
 
@@ -62,6 +67,19 @@ export class GuessWordComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         if (this.routeSub) {
             this.routeSub.unsubscribe();
+        }
+    }
+
+    // Controla cada intento del usuario
+    makeAttempt() {
+        this.currentAttempt++;
+        this.checkForHint();
+    }
+
+    // Verifica si es momento de ofrecer una pista
+    checkForHint() {
+        if (this.currentAttempt === Math.ceil(this.totalAttempts / 2) && !this.showHintPrompt && !this.showHint) {
+            this.showHintPrompt = true;
         }
     }
 
@@ -90,6 +108,9 @@ export class GuessWordComponent implements OnInit, OnDestroy {
         this.rowResults = Array(6).fill([]).map(() => []);
         this.currentRow = 0;
         this.currentLetter = 0;
+        this.currentAttempt = 0;
+        this.showHintPrompt = false;
+        this.showHint = false;
         this.gameActive = true;
         this.resetKeyboardStatus();
     }
@@ -125,6 +146,7 @@ export class GuessWordComponent implements OnInit, OnDestroy {
             this.checkRowAccuracy(this.currentRow);
             this.currentRow += 1;
             this.currentLetter = 0;
+            this.makeAttempt();
         }
     }
 
@@ -241,5 +263,37 @@ export class GuessWordComponent implements OnInit, OnDestroy {
         return words[Math.floor(Math.random() * words.length)];
     }
 
+    handleHintResponse(wantsHint: boolean) {
+        this.showHintPrompt = false;
+        if (wantsHint) {
+            this.generateHint();
+            this.showHint = true;
+        }
+    }
+
+    closeHint() {
+        this.showHint = false;
+    }
+
+    generateHint() {
+        const hintType = Math.floor(Math.random() * 3); // Elegir aleatoriamente entre diferentes tipos de pistas
+
+        switch (hintType) {
+            case 0:
+                // Primera letra
+                this.hint = `La palabra comienza con la letra ${this.answer[0].toUpperCase()}`;
+                break;
+            case 1:
+                // Última letra
+                this.hint = `La palabra termina con la letra ${this.answer[this.answer.length - 1].toUpperCase()}`;
+                break;
+            case 2:
+                // Número de vocales
+                const vowels = this.answer.match(/[aeiouáéíóú]/gi);
+                const vowelCount = vowels ? vowels.length : 0;
+                this.hint = `La palabra contiene ${vowelCount} vocal${vowelCount !== 1 ? 'es' : ''}`;
+                break;
+        }
+    }
 
 }

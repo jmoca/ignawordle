@@ -71,4 +71,22 @@
         </div>
     </div>
 
+    <div *ngIf="showHintPrompt" class="modal">
+        <div class="modal-content hint-modal">
+            <p>¿Necesitas ayuda para encontrar la palabra?</p>
+            <div class="button-container">
+                <button (click)="handleHintResponse(true)">Sí, quiero una pista</button>
+                <button (click)="handleHintResponse(false)" class="btn-no">No, seguiré intentando</button>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="showHint" class="modal">
+        <div class="modal-content hint-modal">
+            <p>Aquí tienes una pista:</p>
+            <div class="hint-text">{{ hint }}</div>
+            <button (click)="closeHint()">Entendido</button>
+        </div>
+    </div>
+
 </div>
