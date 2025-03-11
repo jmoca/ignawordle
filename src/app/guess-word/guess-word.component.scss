@@ -77,7 +77,6 @@ body {
     min-height: 100%;
 }
 
-// Contenedor principal
 .wordle-container {
     display: flex;
     flex-direction: column;
@@ -88,7 +87,17 @@ body {
     padding: 1rem;
     min-height: 100%;
     box-sizing: border-box;
+
+    /* Habilita el scroll sin que sea visible */
+    overflow: auto;
+    -ms-overflow-style: none;  /* Oculta barra de scroll en Edge/IE */
+    scrollbar-width: none;  /* Oculta barra de scroll en Firefox */
 }
+
+.wordle-container::-webkit-scrollbar {
+    display: none;  /* Oculta barra de scroll en Chrome/Safari */
+}
+
 
 // Cabecera del juego
 .game-header {
