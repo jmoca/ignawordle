@@ -40,7 +40,7 @@ export class SelectLevelComponent implements OnInit {
         this.router.navigate(['/guess-word'], {
             queryParams: {
                 level,
-                timestamp: new Date().getTime() // Evita problemas de caché
+                timestamp: new Date().getTime()
             }
         });
     }

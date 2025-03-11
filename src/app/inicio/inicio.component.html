@@ -1,0 +1,48 @@
+<div class="landing-container">
+    <div class="landing-content">
+        <div class="logo-wrapper">
+            <h1 class="game-logo">IGNAWORDLE</h1>
+            <span class="game-subtitle">El juego de palabras que desafía tus conocimientos de San Ignacio de Loyola</span>
+        </div>
+
+        <div class="game-description">
+            <p>Adivina la palabra oculta en 6 intentos. Después de cada intento, las letras cambiarán de color para mostrar qué tan cerca estás.</p>
+        </div>
+
+        <div class="example-grid">
+            <div class="example-row">
+                <div class="example-cell green">P</div>
+                <div class="example-cell">A</div>
+                <div class="example-cell">L</div>
+                <div class="example-cell">M</div>
+                <div class="example-cell">A</div>
+            </div>
+            <p class="example-text">La letra <strong>P</strong> está en la palabra y en el lugar correcto.</p>
+
+            <div class="example-row">
+                <div class="example-cell">L</div>
+                <div class="example-cell yellow">I</div>
+                <div class="example-cell">B</div>
+                <div class="example-cell">R</div>
+                <div class="example-cell">O</div>
+            </div>
+            <p class="example-text">La letra <strong>I</strong> está en la palabra pero en el lugar incorrecto.</p>
+
+            <div class="example-row">
+                <div class="example-cell">C</div>
+                <div class="example-cell">A</div>
+                <div class="example-cell">S</div>
+                <div class="example-cell wrong">A</div>
+                <div class="example-cell">S</div>
+            </div>
+            <p class="example-text">La letra <strong>A</strong> no está en la palabra.</p>
+        </div>
+
+        <div class="start-game">
+            <p class="challenge-text">¿Estás listo para poner a prueba tu vocabulario?</p>
+            <br/>
+            <button class="challenge-button" (click)="NavigateTo('select-level')">¡JUGAR!</button>
+        </div>
+
+    </div>
+</div>
