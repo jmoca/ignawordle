@@ -1,9 +1,9 @@
 export const palabrasHard: string[] = [
-    "Fundador",
-    "Sacerdote",
-    "Jesuitas",
-    "Espiritual",
-    "Peregrinar",
-    "Discernir",
-    "Evangelio"
+    "fundador",
+    "sacerdote",
+    "jesuitas",
+    "espiritual",
+    "peregrinar",
+    "discernir",
+    "evangelio"
 ];
