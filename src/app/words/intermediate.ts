@@ -5,6 +5,6 @@ export const palabrasIntermediate: string[] = [
     "cristo",
     "templo",
     "jesuita",
-    "apóstol",
+    "apostol",
     "fundar"
 ];
